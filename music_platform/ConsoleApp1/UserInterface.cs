@@ -11,7 +11,7 @@ public class UserInterface
 {
     private MusicDatabase database;
     private string loggedInUser;
-    private const string PasswordsFilePath = "passwords.txt"; // сохраняется в music_platform\ConsoleApp1\bin\Debug\net8.0
+    private const string PasswordsFilePath = "passwords.txt"; // RU: пароли сохраняются в music_platform\ConsoleApp1\bin\Debug\net8.0 // ENG: passwords are saved in music_platform\ConsoleApp1\bin\Debug\net8.0
     private readonly WaveOutEvent waveOut = new WaveOutEvent();
 
     public UserInterface(MusicDatabase db)
@@ -162,7 +162,7 @@ public class UserInterface
         Console.Write("Enter new username (at least 4 characters, only Latin letters and digits allowed): ");
         string newUsername = Console.ReadLine();
 
-        if (newUsername.Length < 4) // имя пользователя должно быть не менее 4 символов
+        if (newUsername.Length < 4) // RU: имя пользователя должно быть не менее 4 символов // ENG: nickname has to be at least 4 characters
         {
             Console.WriteLine("Username should be at least 4 characters long.");
             Console.WriteLine("Press Enter to continue.");
@@ -172,7 +172,7 @@ public class UserInterface
         }
         if (!Regex.IsMatch(newUsername, "^[a-zA-Z0-9]+$"))
         {
-            Console.WriteLine("Username should contain only Latin letters and digits."); // имя пользователя должно быть написано на латинице (по желанию с цифрами)
+            Console.WriteLine("Username should contain only Latin letters and digits."); // RU: имя пользователя должно быть написано на латинице (по желанию с цифрами) // ENG: username must be written in Latin (with numbers, if you wish)
             Console.WriteLine("Press Enter to continue.");
             Console.ReadLine();
             Console.Clear();
@@ -182,7 +182,7 @@ public class UserInterface
         Console.Write("Enter new password (at least 8 characters): ");
         string newPassword = Console.ReadLine();
 
-        if (newPassword.Length < 8) // пароль должен быть не менее 8 символов
+        if (newPassword.Length < 8) // RU: пароль должен быть не менее 8 символов // ENG: password has to be at least 8 characters 
         {
             Console.WriteLine("Password should be at least 8 characters long.");
             Console.WriteLine("Press Enter to continue.");
@@ -253,7 +253,7 @@ public class UserInterface
         {
             var youtubeService = new YouTubeService(new BaseClientService.Initializer
             {
-                ApiKey = "AIzaSyC-LGZ7oafKvYUr0xz5bxx-7fOjthts79o", // вводим свой api ключ
+                ApiKey = "AIzaSyC-LGZ7oafKvYUr0xz5bxx-7fOjthts79o", // RU: вставляем свой api ключ // ENG: put your api key here
                 ApplicationName = "AITUtify"
             });
 
@@ -261,7 +261,7 @@ public class UserInterface
             searchListRequest.Q = songName;
             searchListRequest.MaxResults = 1;
             searchListRequest.Type = "video"; 
-            searchListRequest.VideoCategoryId = "10"; // выводится ролики которые находятся в категории музыки
+            searchListRequest.VideoCategoryId = "10"; // RU: выводится ролики которые находятся в категории музыки // ENG: videos that are in the music category are displayed
 
             var searchListResponse = searchListRequest.Execute();
             var video = searchListResponse.Items.FirstOrDefault();
@@ -270,14 +270,14 @@ public class UserInterface
                 var videoId = video.Id.VideoId;
                 var videoUrl = $"https://www.youtube.com/watch?v={videoId}";
 
-                // открывается URL в веб-браузере
+                // RU: открывается URL в веб-браузере // ENG: opens URL in web browser
                 System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo
                 {
                     FileName = videoUrl,
                     UseShellExecute = true
                 });
 
-                // доп. запрос для получения информации о видео
+                // RU: доп. запрос для получения информации о видео // ENG: additional request for information about the video
                 var videoRequest = youtubeService.Videos.List("snippet, contentDetails, statistics");
                 videoRequest.Id = videoId;
 
@@ -290,13 +290,13 @@ public class UserInterface
                     var snippet = videoInfo.Snippet;
                     var contentDetails = videoInfo.ContentDetails;
 
-                    Console.WriteLine($"Title: {snippet.Title}"); // название песни
-                    Console.WriteLine($"Published At: {snippet.PublishedAt}"); // когда был выпущен ролик
-                    Console.WriteLine($"Channel Title: {snippet.ChannelTitle}"); // название канала
-                    var duration = XmlConvert.ToTimeSpan(contentDetails.Duration); // конвертация времени, чтобы не писалось на подобии "P3M35S"
+                    Console.WriteLine($"Title: {snippet.Title}"); // RU: название песни // ENG: song title
+                    Console.WriteLine($"Published At: {snippet.PublishedAt}"); // RU: когда был выпущен ролик // ENG: when was the song video released
+                    Console.WriteLine($"Channel Title: {snippet.ChannelTitle}"); // RU: название канала // ENG: channel name
+                    var duration = XmlConvert.ToTimeSpan(contentDetails.Duration); // RU: конвертация времени, чтобы не писалось на подобии "P3M35S" // ENG: time conversion so that it is not written as "P3M35S"
                     string formattedDuration = $"{(int)duration.TotalMinutes} minutes {(int)duration.Seconds} seconds";
-                    Console.WriteLine($"Duration: {formattedDuration}"); // пишет длительность ролика
-                    Console.WriteLine($"Number of views on this video: {viewCount}"); // пишет количество просмотров
+                    Console.WriteLine($"Duration: {formattedDuration}"); // RU: отображает длительность ролика // ENG: displays the duration of the video
+                    Console.WriteLine($"Number of views on this video: {viewCount}"); // RU: отображает количество просмотров // ENG: displays the number of views
 
                     Console.WriteLine("Press Enter to clear logs and continue.");
                     Console.ReadLine();
